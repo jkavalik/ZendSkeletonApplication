@@ -32,6 +32,10 @@ class Module
         );
         
         $logger = $services->get('Zend\Log\Logger');
+        $stream_writer = new \Zend\Log\Writer\Stream('/tmp/zend_'.date('Y-m-d').'.log');
+		$stream_writer->setConvertWriteErrorsToExceptions(false);
+		$logger->addWriter($stream_writer);
+		
         // http://www.webconsults.eu/blog/entry/78-Error_Handling_for_Debugging_in_Zend_Framework_2
         register_shutdown_function(function () use ($logger)
         {

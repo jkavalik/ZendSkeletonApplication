@@ -16,12 +16,13 @@ return array(
 		'log' => array(
 				'Zend\Log\Logger' => array(
 						'writers' => array(
-								array(
+								// not possible to pass convertWriteErrorsToExceptions=false
+								/*array(
 										'name' => 'stream',
 										'options' => array(
 												'stream' => '/tmp/zend_'.date('Y-m-d').'.log',
 										),
-								),
+								),*/
 						),
 						'exceptionhandler' => true,
 						'errorhandler' => true,
