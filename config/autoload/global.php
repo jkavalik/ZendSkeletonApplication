@@ -12,5 +12,19 @@
  */
 
 return array(
-    // ...
+		// configure logger for factory
+		'log' => array(
+				'Zend\Log\Logger' => array(
+						'writers' => array(
+								array(
+										'name' => 'stream',
+										'options' => array(
+												'stream' => '/tmp/zend_'.date('Y-m-d').'.log',
+										),
+								),
+						),
+						'exceptionhandler' => true,
+						'errorhandler' => true,
+				),
+		),
 );

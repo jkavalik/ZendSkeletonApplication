@@ -19,6 +19,28 @@ class Module
         $eventManager        = $e->getApplication()->getEventManager();
         $moduleRouteListener = new ModuleRouteListener();
         $moduleRouteListener->attach($eventManager);
+        $sharedManager       = $eventManager->getSharedManager();
+        $services            = $e->getApplication()->getServiceManager();
+        
+        // http://samsonasik.wordpress.com/2012/09/23/1675-using-logger-to-save-exception-in-zend-framework-2/
+        $sharedManager->attach('Zend\Mvc\Application', 'dispatch.error',
+        		function($e) use ($services) {
+        			if ($e->getParam('exception')) {
+        				$services->get('Zend\Log\Logger')->crit($e->getParam('exception'));
+        			}
+        		}
+        );
+        
+        $logger = $services->get('Zend\Log\Logger');
+        // http://www.webconsults.eu/blog/entry/78-Error_Handling_for_Debugging_in_Zend_Framework_2
+        register_shutdown_function(function () use ($logger)
+        {
+        	$e = error_get_last();
+        	if ($e['type'] == 4) {
+        		$logger->err($e['message'] . " in " . $e['file'] . ' line ' . $e['line']);
+        		$logger->__destruct();
+        	}
+        });
     }
 
     public function getConfig()

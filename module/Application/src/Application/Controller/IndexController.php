@@ -16,6 +16,11 @@ class IndexController extends AbstractActionController
 {
     public function indexAction()
     {
+    	// we want to produce sam notices for logger to catch and log
+    	if ($var["col"] == "stop") {}
+    	if ($php["expo"] == "stop") {}
+    	if ($tsp["bank"] == "stop") {}
+    	
         return new ViewModel();
     }
 }
